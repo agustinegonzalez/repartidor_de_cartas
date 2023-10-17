@@ -1,2 +1,3 @@
 #no incluye los .swp
-*.swp
+*.c.swp
+
