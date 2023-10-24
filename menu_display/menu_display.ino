@@ -1,7 +1,18 @@
-#include "LiquidMenu.h"
-#include "Liquid_Crystal.h"
-#include <Wire.h> //incluyo libreria para la comunicacion I2C
-#include "LiquidCrystal_I2C.h" //incluyo libreria para display I2C
+
+//#include <Wire.h>
+//#include <LiquidCrystal_SI2C.h>
+#include <LiquidCrystal_SR.h>
+#include <FastIO.h>
+#include <SoftI2CMaster.h>
+#include <LiquidCrystal_SR3W.h>
+#include <LiquidCrystal_SR1W.h>
+#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C_ByVac.h>
+#include <I2CIO.h>
+#include <LiquidCrystal_SR2W.h>
+#include <LCD.h>
+#include <LiquidCrystal.h>
+#include <SI2CIO.h>
 
 //Crear el objeto lcd  dirección  0x27 y 16 columnas x 2 filas
 LiquidCrystal_I2C lcd(0x27, 16, 2); //
