@@ -1,6 +1,4 @@
-
-//#include <Wire.h>
-//#include <LiquidCrystal_SI2C.h>
+#include <LiquidCrystal_SI2C.h>
 #include <LiquidCrystal_SR.h>
 #include <FastIO.h>
 #include <SoftI2CMaster.h>
@@ -13,6 +11,9 @@
 #include <LCD.h>
 #include <LiquidCrystal.h>
 #include <SI2CIO.h>
+
+#include <Wire.h>
+
 
 //Crear el objeto lcd  dirección  0x27 y 16 columnas x 2 filas
 LiquidCrystal_I2C lcd(0x27, 16, 2); //
