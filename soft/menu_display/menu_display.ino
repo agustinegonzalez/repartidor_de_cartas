@@ -1,9 +1,15 @@
+#include <LiquidCrystal.h>
+
 #include <LiquidMenu.h>
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 
-//Crear el objeto lcd  dirección  0x27 y 16 columnas x 2 filas
-LiquidCrystal_I2C lcd(0x27, 16, 2); // Crea una instancia de LiquidCrystal_I2C
+uint8_t lcd_direccion = 39;
+uint8_t lcd_columnas = 16;
+uint8_t lcd_filas = 2;
+
+LiquidCrystal_I2C lcd(lcd_direccion, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
+
 boolean accionado = false;
 int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
@@ -22,6 +28,8 @@ LiquidScreen pantalla2(linea1_2, linea2_2, linea3_2);
 
 
 //(Agustin)Hay un problema con este tipo de declaracion. Se deberia revisar la documentacion porque con las versiones seguro fue variando.
+//Compilation error: no matching function for call to 'LiquidMenu::LiquidMenu(LiquidCrystal_I2C&, LiquidScreen&, LiquidScreen&)'
+//es el unico error que tira
 LiquidMenu menu(lcd, pantalla1, pantalla2); // Crea una instancia de LiquidMenu utilizando lcd
 
 
@@ -48,7 +56,7 @@ void setup() {
   linea3.attach_function(1, fn_4j);
   linea4.attach_function(1, fn_5j);
 
-  menu.add_screen(pantalla1);
+  //menu.add_screen(pantalla1);
   //selecciona donde se ubica el cursor
   linea1_2.set_focusPosition(Position::LEFT);
   linea2_2.set_focusPosition(Position::LEFT);
@@ -58,15 +66,15 @@ void setup() {
   linea2_2.attach_function(1, fn_4c);
   linea3_2.attach_function(1, fn_5c);
 
-  menu.add_screen(pantalla2);
+  //menu.add_screen(pantalla2);
 
 
   pantalla1.set_displayLineCount(2); //selecciona la cantidad que tiene nuestro display para la pantalla 1
   pantalla2.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 2
 
-  menu.set_focusedLine(0); // pone el foco del menu en 0
+ // menu.set_focusedLine(0); // pone el foco del menu en 0
 
-  menu.update(); //actualiza la info que se muestra en el display
+  //menu.update(); //actualiza la info que se muestra en el display
 
 
 
@@ -75,19 +83,19 @@ void setup() {
 void loop() {
 
   if ((digitalRead (PulsadorUP) == HIGH) && accionado == false) { //llamado a funcion incrementar
-    menu.switch_focus(true); //hace que el cursor baje
-    menu.update(); //actualiza la info que se muestra en el display
+    //menu.switch_focus(true); //hace que el cursor baje
+    //menu.update(); //actualiza la info que se muestra en el display
 
     accionado = true;
   }
   if ((digitalRead (PulsadorDOWN) == HIGH) && accionado == false) { //llamado a funcion decrementar
-    menu.switch_focus(false); //hace que el robot suba
-    menu.update(); //actualiza la info que se muestra en el display
+    //menu.switch_focus(false); //hace que el robot suba
+   // menu.update(); //actualiza la info que se muestra en el display
 
     accionado = true;
   }
   if ((digitalRead (PulsadorOK) == HIGH) && accionado == false) { //llamado a funcion reset
-    menu.call_function(1);
+   // menu.call_function(1);
     delay(500);
     accionado = true;
   }
@@ -97,23 +105,23 @@ void loop() {
 
 }
 void fn_2j() {
-  menu.change_screen(2);
-  menu.set_focusedLine(0);
+ // menu.change_screen(2);
+ // menu.set_focusedLine(0);
 
 }
 void fn_3j() {
-  menu.change_screen(2);
-  menu.set_focusedLine(0);
+  //menu.change_screen(2);
+  //menu.set_focusedLine(0);
 
 }
 void fn_4j() {
-  menu.change_screen(2);
-  menu.set_focusedLine(0);
+  //menu.change_screen(2);
+  //menu.set_focusedLine(0);
 
 }
 void fn_5j() {
-  menu.change_screen(2);
-  menu.set_focusedLine(0);
+  //menu.change_screen(2);
+  //menu.set_focusedLine(0);
 
 }
 void fn_3c() {
