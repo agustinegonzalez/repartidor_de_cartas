@@ -1,22 +1,9 @@
-#include <LiquidCrystal_SI2C.h>
-#include <LiquidCrystal_SR.h>
-#include <FastIO.h>
-#include <SoftI2CMaster.h>
-#include <LiquidCrystal_SR3W.h>
-#include <LiquidCrystal_SR1W.h>
-#include <LiquidCrystal_I2C.h>
-#include <LiquidCrystal_I2C_ByVac.h>
-#include <I2CIO.h>
-#include <LiquidCrystal_SR2W.h>
-#include <LCD.h>
-#include <LiquidCrystal.h>
-#include <SI2CIO.h>
-
-#include <Wire.h>
-
+#include <LiquidMenu.h>
+#include <Wire.h> //incluyo libreria para la comunicacion I2C
+#include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 
 //Crear el objeto lcd  dirección  0x27 y 16 columnas x 2 filas
-LiquidCrystal_I2C lcd(0x27, 16, 2); //
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Crea una instancia de LiquidCrystal_I2C
 boolean accionado = false;
 int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
@@ -33,7 +20,11 @@ LiquidLine linea2_2(1, 1, "4 Cartas");
 LiquidLine linea3_2(1, 0, "5 cartas");
 LiquidScreen pantalla2(linea1_2, linea2_2, linea3_2);
 
-LiquidMenu menu(lcd, pantalla1, pantalla2);
+
+//(Agustin)Hay un problema con este tipo de declaracion. Se deberia revisar la documentacion porque con las versiones seguro fue variando.
+LiquidMenu menu(lcd, pantalla1, pantalla2); // Crea una instancia de LiquidMenu utilizando lcd
+
+
 
 
 void setup() {
