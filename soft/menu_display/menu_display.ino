@@ -1,12 +1,12 @@
 #include <LiquidMenu.h>
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
+#define LCD_DIRECCION 0x27
 
-uint8_t lcd_direccion = 39;
 uint8_t lcd_columnas = 16;
 uint8_t lcd_filas = 2;
 
-LiquidCrystal_I2C lcd(lcd_direccion, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
+LiquidCrystal_I2C lcd(LCD_DIRECCION, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
 
 boolean accionado = false;
 int  PulsadorUP = 7;    // pin del Pulsador incrementador
