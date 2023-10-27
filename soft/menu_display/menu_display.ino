@@ -1,6 +1,4 @@
-#include <LiquidCrystal.h>
 
-#include <LiquidMenu.h>
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 
