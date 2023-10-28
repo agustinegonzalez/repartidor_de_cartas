@@ -13,18 +13,26 @@ int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
 
-LiquidLine linea1(1, 0, "2 Jugadores");
-LiquidLine linea2(1, 1, "3 Jugadores");
-LiquidLine linea3(1, 0, "4 Jugadores");
-LiquidLine linea4(1, 1, "5 Jugadores");
+LiquidLine linea1(1, 0, "UNO");
+LiquidLine linea2(1, 1, "TRUCO");
+LiquidLine linea3(1, 0, "RUMI");
+LiquidLine linea4(1, 1, "INGRESO MANUAL");
 LiquidScreen pantalla1(linea1, linea2, linea3, linea4);
 
-LiquidLine linea1_2(1, 0, "3 Cartas");
-LiquidLine linea2_2(1, 1, "4 Cartas");
-LiquidLine linea3_2(1, 0, "5 cartas");
-LiquidScreen pantalla2(linea1_2, linea2_2, linea3_2);
+LiquidLine linea1_2(1, 0, "2 Jugadores");
+LiquidLine linea2_2(1, 1, "3 Jugadores");
+LiquidLine linea3_2(1, 0, "4 Jugadores");
+LiquidLine linea4_2(1, 1, "5 Jugadores");
+LiquidScreen pantalla2(linea1_2, linea2_2, linea3_2, linea4_2);
 
-LiquidMenu menu(lcd, pantalla1, pantalla2); // Crea una instancia de LiquidMenu utilizando lcd
+LiquidLine linea1_3(1, 0, "3 cartas");
+LiquidLine linea2_3(1, 1, "4 cartas");
+LiquidLine linea3_3(1, 0, "7 cartas");
+LiquidLine linea4_3(1, 1, "10 cartas");
+LiquidScreen pantalla3(linea1_3, linea2_3, linea3_3, linea4_3);
+
+
+LiquidMenu menu(lcd, pantalla1, pantalla2, pantalla3); // Crea una instancia de LiquidMenu utilizando lcd
 
 
 void setup() {
@@ -32,7 +40,7 @@ void setup() {
   pinMode(PulsadorDOWN, INPUT ); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(PulsadorOK, INPUT); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(A1, OUTPUT);
-   pinMode(A2, OUTPUT);
+  pinMode(A2, OUTPUT);
   // Inicializar el LCD
   lcd.init();
   //Encender la luz de fondo.
@@ -43,26 +51,43 @@ void setup() {
   linea3.set_focusPosition(Position::LEFT);
   linea4.set_focusPosition(Position::LEFT);
   //segun la opcion ejecuta con una funcion con la funcion attach
-  linea1.attach_function(1, fn_2j);
-  linea2.attach_function(1, fn_3j);
-  linea3.attach_function(1, fn_4j);
-  linea4.attach_function(1, fn_5j);
+  linea1.attach_function(1, juego1);
+  linea2.attach_function(1, juego2);
+  linea3.attach_function(1, juego3);
+  linea4.attach_function(1, manual);
 
   menu.add_screen(pantalla1);
   //selecciona donde se ubica el cursor
   linea1_2.set_focusPosition(Position::LEFT);
   linea2_2.set_focusPosition(Position::LEFT);
   linea3_2.set_focusPosition(Position::LEFT);
+  linea4_2.set_focusPosition(Position::LEFT);
   //segun la opcion ejecuta con una funcion con la funcion attach
-  linea1_2.attach_function(1, fn_3c);
-  linea2_2.attach_function(1, fn_4c);
-  linea3_2.attach_function(1, fn_5c);
+  linea1_2.attach_function(1, fn_2jugadores);
+  linea2_2.attach_function(1, fn_3jugadores);
+  linea3_2.attach_function(1, fn_4jugadores);
+  linea4_2.attach_function(1, fn_5jugadores);
+
+  menu.add_screen(pantalla2);
+
+  //selecciona donde se ubica el cursor
+  linea1_3.set_focusPosition(Position::LEFT);
+  linea2_3.set_focusPosition(Position::LEFT);
+  linea3_3.set_focusPosition(Position::LEFT);
+  linea4_3.set_focusPosition(Position::LEFT);
+  //segun la opcion ejecuta con una funcion con la funcion attach
+  linea1_3.attach_function(1, fn_2cartas);
+  linea2_3.attach_function(1, fn_3cartas);
+  linea3_3.attach_function(1, fn_4cartas);
+  linea4_3.attach_function(1, fn_5cartas);
 
   menu.add_screen(pantalla2);
 
 
   pantalla1.set_displayLineCount(2); //selecciona la cantidad que tiene nuestro display para la pantalla 1
   pantalla2.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 2
+    pantalla3.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 2
+
 
   menu.set_focusedLine(0); // pone el foco del menu en 0
 
@@ -96,44 +121,51 @@ void loop() {
   }
 
 }
-void fn_2j() {
+void juego1() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
 
 }
-void fn_3j() {
- menu.change_screen(2);
- menu.set_focusedLine(0);
+void juego2() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
 
 }
-void fn_4j() {
- menu.change_screen(2);
- menu.set_focusedLine(0);
+void juego3() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
 
 }
-void fn_5j() {
- menu.change_screen(2);
- menu.set_focusedLine(0);
+void manual() {
+  menu.change_screen(3);
+  menu.set_focusedLine(0);
 
 }
-void fn_3c() {
-digitalWrite(A1,HIGH);
-digitalWrite(A2,HIGH);
-delay(3000);
-digitalWrite(A1,LOW);
-digitalWrite(A2,LOW);
+void fn_2cartas() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
 }
-void fn_4c() {
-digitalWrite(A1,HIGH);
-digitalWrite(A2,HIGH);
-delay(3000);
-digitalWrite(A1,LOW);
-digitalWrite(A2,LOW);
+void fn_3cartas() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
 }
-void fn_5c() {
-digitalWrite(A1,HIGH);
-digitalWrite(A2,HIGH);
-delay(3000);
-digitalWrite(A1,LOW);
-digitalWrite(A2,LOW);
+void fn_4cartas() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
+}
+void fn_5cartas() {
+  menu.change_screen(2);
+  menu.set_focusedLine(0);
+}
+void fn_2jugadores() {
+
+}
+void fn_3jugadores() {
+
+}
+void fn_4jugadores() {
+
+}
+void fn_5jugadores() {
+
 }
