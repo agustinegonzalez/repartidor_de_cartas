@@ -5,3 +5,12 @@ El display presentará varios juegos precargados que el usuario cargará desde u
 la cantidad de jugadores y las cartas a repartir. 
 En caso de seleccionar un juego precargado, la siguiente pantalla será la cantidad de jugadores.
 
+## Instrucciones de Instalación
+1. Clona este repositorio: `git clone https://github.com/agustinegonzalez/repartidor_de_cartas.git`
+2. Navega al directorio del proyecto: `cd repartidor_de_cartas`
+3. Instala las dependencias: `npm install`
+
+## Uso
+Para iniciar la aplicación, ejecuta el siguiente comando:
+
+
