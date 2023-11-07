@@ -1,6 +1,7 @@
 #include <Stepper.h>
 
 
+
 uint16_t PasosPorRevolucion = 2048;
 uint8_t velocidad = 12;
 int juego = 0;
@@ -12,6 +13,23 @@ void setup() {
   stepper.setSpeed(velocidad);
 }
 
+void juego_seleccionado(int juego) {
+  switch (juego) {
+    case 1:
+      // Llama a la función correspondiente al juego 1 (UNO)
+      Serial.println("Se llamó correctamente a la función. ");
+      break;
+    case 2:
+      // Llama a la función correspondiente al juego 2 (v)
+      break;
+    case 3:
+      // Llama a la función correspondiente al juego 3 (a)
+      break;
+    default:
+      // Manejar otros casos o errores
+      break;
+  }
+}
 void loop() {
   // put your main code here, to run repeatedly:
   // stepper.step(PasosPorRevolucion);
@@ -24,19 +42,3 @@ void loop() {
   }
 }
 
-juego_seleccionado(int juego) {
-  switch(juego){
-    case "UNO":
-    //llama al a funcion correspondiente al juego 1
-    Serial.println("Se llamó correctamente a la función.");
-    break;
-    case 2:
-    //llama a la funcion correspondiente al juego 2
-    break;
-    case 3:
-    //llama a la funcion correspondiente al juego 3
-    break;
-    default:
-    break;
-  }
-}

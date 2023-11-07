@@ -20,12 +20,12 @@ int termset(int fd, int baudrate, struct termios *ttyold, struct termios *ttynew
 			baudrate = B9600;
 			break;
 		default:
-			baurate = B115200;
+			baudrate = B115200;
 			break;
 	}
 	if ( tcgetattr ( fd , ttyold ) != 0)
 	{
-		printf ( " ERROR : tcgetattr \ n " );
+		printf ( " ERROR : tcgetattr \n");
 		return -1;
 	}
 	ttynew = ttyold ;
@@ -47,7 +47,7 @@ int termset(int fd, int baudrate, struct termios *ttyold, struct termios *ttynew
 	ttynew -> c_lflag = 0;//no signaling chars , no echo ,
 	ttynew -> c_oflag = 0;	//no remapping , no delays
 	ttynew -> c_cc [ VMIN ] = 0;//read doesn ’t block
-	ttynew - > c_cc [ VTIME ] = 100;//read timeout
+	ttynew -> c_cc [ VTIME ] = 100;//read timeout
 
 	/*
 	* TCSANOW : Make the change immediately .
@@ -56,7 +56,7 @@ int termset(int fd, int baudrate, struct termios *ttyold, struct termios *ttynew
 	*/
 	if ( tcsetattr ( fd , TCSAFLUSH , ttynew ) != 0)
 	{
-		printf ( " ERROR : tcsetattr \ n " );
+		printf ( " ERROR : tcsetattr \n" );
 		return -1;
 	}
 	return 0;
