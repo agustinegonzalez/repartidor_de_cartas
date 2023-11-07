@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
 	
 	tcflush(file_descriptor, TCIOFLUSH);
 	
-	for (;;) {
-		printf("\tR E P A R T I D O R    D E    C A R T A S\n");
+//	for (;;) {
+do{		printf("\tR E P A R T I D O R    D E    C A R T A S\n");
 		printf("1. Cargar juego\n");
 		printf("2. Eliminar juego\n");
 		printf("3. Cargar puntaje\n");
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         		printf("1. Sí\n2. No\n");
        		 	scanf("%d", &cargapositiva);
         		if (cargapositiva == 1) {
-            			write(file_descriptor, "UNO", strlen(char));
+            			write(file_descriptor, "UNO", 1);
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
 				printf("*********************************************************\n");
@@ -56,7 +56,8 @@ int main(int argc, char *argv[])
     		}
 		tcdrain(file_descriptor);
 		sleep(1);
-	}
+}while(opcion != 4);
+//	}
 	close(file_descriptor);
 
 	return 0;
