@@ -14,23 +14,6 @@ void setup() {
 }
 
 void loop() {
- 
- if (Serial.available() > 0) {
-        char cadenaLeida[32]; 
-        int i = 0;
 
-        while (Serial.available() > 0) {
-            char caracterLeido = Serial.read();
-            cadenaLeida[i] = caracterLeido;
-            i++;
-        }
-        cadenaLeida[i] = '\0'; // Agrega un carácter nulo al final para formar una cadena
-
-        // Realiza acciones en función de la cadena completa recibida
-        if (strcmp(cadenaLeida, "UNO") == 0) {
-            // Realiza una acción específica para "UNO"
-            Serial.print("HOLA");
-        }
-    }
 }
 

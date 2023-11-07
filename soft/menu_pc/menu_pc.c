@@ -12,7 +12,9 @@ int main(int argc, char *argv[])
 	struct termios oldtty, newtty;
 	uint8_t opcion = 0;
 	int cargapositiva;
-
+	char comando[] = "Comando1";
+	char datos[] = "Dato1,Dato2";
+	char mensaje[128];
 
 	file_descriptor = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -47,7 +49,8 @@ do{		printf("\tR E P A R T I D O R    D E    C A R T A S\n");
         		printf("1. Sí\n2. No\n");
        		 	scanf("%d", &cargapositiva);
         		if (cargapositiva == 1) {
-            			write(file_descriptor, "UNO", 1);
+				sprintf(mensaje, "%s:%s\n", comando,datos);
+				write(file_descriptor, mensaje, 1);	
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
 				printf("*********************************************************\n");
