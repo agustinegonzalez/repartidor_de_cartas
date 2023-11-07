@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "termset.h"
 #include <stdint.h>
+#include <string.h>
 char* uno()
 {
 	char *cadena;
@@ -23,7 +24,6 @@ int main(int argc, char *argv[])
 	int file_descriptor;
 	struct termios oldtty, newtty;
 	uint8_t opcion = 0;
-	char *juego;
 
 	file_descriptor = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -48,34 +48,21 @@ int main(int argc, char *argv[])
 		printf("3. Cargar puntaje\n");
 		printf("4. Salir\n");
 		scanf("%hhu", &opcion);
-		
+		/*Falta agrega que cuando quiera cargar un juego, lo lleve a elegir entre los juegos posibles*/	
 		if (opcion == 4) {
 			break;  // Salir del bucle cuando se ingresa "4"
 		}
-/*
-		if (opcion == 1) {
-       			printf("¿Desea cargar el juego UNO?\n");
-        		printf("1. Sí\n2. No\n");
-       		 	scanf("%d", &cargapositiva);
-        		if (cargapositiva == 1) {
-            			write(file_descriptor, "UNO", 1);
-				printf("*********************************************************\n");
-				printf("Juego cargado con éxito. Volviendo al menú......\n");
-				printf("*********************************************************\n");
-				continue;
-        		}
-    		}
-*/
 		switch(opcion)
 		{
 			case 1:
 				printf("¿Desea cargar el UNO?\n");		
 			        printf("1. Sí\n2. No\n");
-				juego = uno();	
+				char* cadena = uno();
+
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
 				printf("*********************************************************\n");
-				write(file_descriptor, juego, 1);
+				write(file_descriptor, cadena, strlen(cadena));
 				continue;
 			case 2:
 				printf("¿Desea cargar el RUMI?\n1. Sí\n2. No\n");
