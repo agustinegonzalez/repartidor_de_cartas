@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         		printf("1. Sí\n2. No\n");
        		 	scanf("%d", &cargapositiva);
         		if (cargapositiva == 1) {
-            			write(file_descriptor, "UNO", 1);
+            			write(file_descriptor, "u", 1);
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
 				printf("*********************************************************\n");

@@ -4,7 +4,7 @@
 
 uint16_t PasosPorRevolucion = 2048;
 uint8_t velocidad = 12;
-int juego = 0;
+char juego [1];
 Stepper stepper(PasosPorRevolucion, 2, 3, 4, 5);
 uint16_t retraso = 1500;
 
@@ -13,16 +13,16 @@ void setup() {
   stepper.setSpeed(velocidad);
 }
 
-void juego_seleccionado(int juego) {
-  switch (juego) {
-    case 1:
+void juego_seleccionado(char juego[0]) {
+  switch (juego[0]) {
+    case 'u':
       // Llama a la función correspondiente al juego 1 (UNO)
-      Serial.println("Se llamó correctamente a la función. ");
+      Serial.println("Se llamó correctamente a la función que carga al juego. ");
       break;
-    case 2:
+    case 'r':
       // Llama a la función correspondiente al juego 2 (v)
       break;
-    case 3:
+    case 'c':
       // Llama a la función correspondiente al juego 3 (a)
       break;
     default:
@@ -36,9 +36,13 @@ void loop() {
   // delay(retraso);
   // stepper.step(PasosPorRevolucion);
   // delay(retraso);
-  if (Serial.available() > 0) {
-    juego = Serial.read();  //parseInt lee un entero desde puerto serie
-    juego_seleccionado(juego);
+  size_t n;
+  char letra[1];
+
+  n = Serial.readBytes(letra,1);
+
+  if( n == 1){
+    juego_seleccionado(letra[0]);
   }
 }
 
