@@ -29,6 +29,7 @@ int main(int argc, int argv[])
 
 	for(;;)
 	{
+
 		write(file_descritor, "UNO", 1);
 		tcdrain(file_descritor);
 		sleep(1);

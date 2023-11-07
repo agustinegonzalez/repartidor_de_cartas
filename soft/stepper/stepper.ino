@@ -19,15 +19,16 @@ void loop() {
   // stepper.step(PasosPorRevolucion);
   // delay(retraso);
   if (Serial.available() > 0) {
-    juego = Serial.parseInt();  //parseInt lee un entero desde puerto serie
+    juego = Serial.read();  //parseInt lee un entero desde puerto serie
     juego_seleccionado(juego);
   }
 }
 
 juego_seleccionado(int juego) {
   switch(juego){
-    case 1:
+    case "UNO":
     //llama al a funcion correspondiente al juego 1
+    Serial.println("Se llamó correctamente a la función.");
     break;
     case 2:
     //llama a la funcion correspondiente al juego 2
