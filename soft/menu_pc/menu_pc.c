@@ -5,6 +5,49 @@
 #include "termset.h"
 #include <stdint.h>
 #include <string.h>
+#include <libudev.h>
+
+const char *encontrarPuertoSerieArduino() {
+	
+	struct udev *udev = udev_new();
+	
+	if (!udev) {
+		fprintf(stderr, "Error al inicializar udev\n");
+	return NULL;
+	}
+
+	struct udev_enumerate *enumerate = udev_enumerate_new(udev);
+	udev_enumerate_add_match_subsystem(enumerate, "tty");
+	udev_enumerate_scan_devices(enumerate);
+
+	struct udev_list_entry *devices = udev_enumerate_get_list_entry(enumerate);
+	struct udev_list_entry *entry;
+
+	const char *nombrePuertoSerie = NULL;
+
+	udev_list_entry_foreach(entry, devices) {
+		const char *path = udev_list_entry_get_name(entry);
+		struct udev_device *device = udev_device_new_from_syspath(udev, path);
+		const char *devnode = udev_device_get_devnode(device);
+
+		if (devnode) {
+		// Comprueba si el nombre del dispositivo contiene "ttyACM" o "ttyUSB"
+			if (strstr(devnode, "ttyACM") || strstr(devnode, "ttyUSB")) {
+				nombrePuertoSerie = devnode;
+				break; // Se encontró el puerto, salimos del bucle
+			}
+		}
+
+		udev_device_unref(device);
+	}
+
+	udev_enumerate_unref(enumerate);
+	udev_unref(udev);
+
+	return nombrePuertoSerie;
+}
+
+
 char* uno()
 {
 	char *cadena;
@@ -13,10 +56,11 @@ char* uno()
         if (cargapositiva == 1) {
 		
 	
-        }else
+       
+       	}else
 		exit(1);
 
-	return (cadena = "UNO");
+	return (cadena = "CARGAUNO");
 }
 
 int main(int argc, char *argv[])
@@ -24,9 +68,11 @@ int main(int argc, char *argv[])
 	int file_descriptor;
 	struct termios oldtty, newtty;
 	uint8_t opcion = 0;
-
-	file_descriptor = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
-
+	const char *puerto = encontrarPuertoSerieArduino();
+	
+	printf("%s\n", puerto);
+	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
+	
 	if(file_descriptor == -1)
 	{
 		printf("ERROR: no se pudo abrir el dispositivo.\n");
@@ -70,7 +116,11 @@ int main(int argc, char *argv[])
 			default:
 				continue;
 
-		}		
+		}	
+		printf("*********************************************************\n");
+		printf("Juego cargado con éxito. Volviendo al menú......\n");
+		printf("*********************************************************\n");
+
 		tcdrain(file_descriptor);
 		sleep(1);
 	}
