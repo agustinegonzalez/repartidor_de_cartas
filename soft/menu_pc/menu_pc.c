@@ -48,29 +48,15 @@ const char *encontrarPuertoSerieArduino() {
 }
 
 
-char* uno()
-{
-	char *cadena;
-	uint8_t cargapositiva = 0;
-       	scanf("%hhu", &cargapositiva);
-        if (cargapositiva == 1) {
-		
-	
-       
-       	}else
-		exit(1);
-
-	return (cadena = "CARGAUNO");
-}
-
 int main(int argc, char *argv[])
 {
 	int file_descriptor;
 	struct termios oldtty, newtty;
 	uint8_t opcion = 0;
+	uint8_t juego = 0;
 	const char *puerto = encontrarPuertoSerieArduino();
-	
-	printf("%s\n", puerto);
+	char *cadena;
+
 	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
 	
 	if(file_descriptor == -1)
@@ -91,19 +77,32 @@ int main(int argc, char *argv[])
 		printf("\tR E P A R T I D O R    D E    C A R T A S\n");
 		printf("1. Cargar juego\n");
 		printf("2. Eliminar juego\n");
-		printf("3. Cargar puntaje\n");
-		printf("4. Salir\n");
+		printf("3. Salir\n");
+		
 		scanf("%hhu", &opcion);
-		/*Falta agrega que cuando quiera cargar un juego, lo lleve a elegir entre los juegos posibles*/	
-		if (opcion == 4) {
+		
+		if (opcion == 3) {
 			break;  // Salir del bucle cuando se ingresa "4"
 		}
 		switch(opcion)
 		{
 			case 1:
-				printf("¿Desea cargar el UNO?\n");		
-			        printf("1. Sí\n2. No\n");
-				char* cadena = uno();
+				printf("Seleccione el juego que desea cargar:\n");
+				printf("1. UNO\n2. RUMI\n3. CHANCHO\n");
+    				scanf("%hhu",  &juego);
+				
+				while(juego < 1 || juego > 3){
+					printf("Por favor, seleccione uno de los tres juegos.\n");
+					scanf("%hhu",  &juego);
+				}
+
+				if(juego == 1){
+					cadena = "CARGAUNO";
+				} else if(juego == 2){
+					cadena = "CARGARUMI";
+				} else if(juego == 3){
+					cadena = "CARGACHANCHO";
+				}
 
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
@@ -111,21 +110,27 @@ int main(int argc, char *argv[])
 				write(file_descriptor, cadena, strlen(cadena));
 				continue;
 			case 2:
-				printf("¿Desea cargar el RUMI?\n1. Sí\n2. No\n");
+				printf("Seleccione el juego que desea borrar:\n");
+				printf("1. UNO\n2. RUMI\n3. CHANCHO\n");
+				scanf("%hhu",  &juego);
+
+
+
+
+
+
+				printf("*********************************************************\n");
+				printf("Juego borrado con éxito. Volviendo al menú......\n");
+				printf("*********************************************************\n");
 				continue;
 			default:
 				continue;
 
 		}	
-		printf("*********************************************************\n");
-		printf("Juego cargado con éxito. Volviendo al menú......\n");
-		printf("*********************************************************\n");
-
-		tcdrain(file_descriptor);
+			tcdrain(file_descriptor);
 		sleep(1);
 	}
 	close(file_descriptor);
 
 	return 0;
-
 }
