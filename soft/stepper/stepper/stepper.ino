@@ -2,7 +2,7 @@
 
 int stepsPerRevolution = 2048;
 uint8_t motSpeed = 12;
-Stepper myStepper(stepsPerRevolution,x,x,x,x);
+Stepper myStepper(stepsPerRevolution,2,3,4,5);
 int dt = 1500;
 
 void setup() {
