@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
 		
 		scanf("%hhu", &opcion);
 		
-		if (opcion == 4) {
+		if (opcion == 4)
 			break;  // Salir del bucle cuando se ingresa "4"
-		}
+		
 		switch(opcion)
 		{
 			case 1:
