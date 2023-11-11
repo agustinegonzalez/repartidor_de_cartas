@@ -3,11 +3,11 @@
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 #define LCD_DIRECCION 0x27
 #include <Stepper.h>
-
+uint8_t x = 0;
 const int stepsPerRevolution = 2048;
 uint8_t lcd_columnas = 16;
 uint8_t lcd_filas = 2;
-Stepper myStepper(stepsPerRevolution,2,3,4,5);
+Stepper myStepper(stepsPerRevolution, 2, 3, 4, 5);
 
 
 LiquidCrystal_I2C lcd(LCD_DIRECCION, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
@@ -16,6 +16,7 @@ boolean accionado = false;
 int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
+
 
 LiquidLine linea1(1, 0, "UNO");
 LiquidLine linea2(1, 1, "POKER");
@@ -44,7 +45,7 @@ void setup() {
   pinMode(PulsadorDOWN, INPUT ); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(PulsadorOK, INPUT); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(A1, OUTPUT);
-  pinMode(A2, OUTPUT);
+
   // Inicializar el LCD
   lcd.init();
   //Encender la luz de fondo.
@@ -98,7 +99,7 @@ void setup() {
   menu.update(); //actualiza la info que se muestra en el display
 
 
- myStepper.setSpeed(10);
+  myStepper.setSpeed(12); //setea la velocidad en 12
 }
 
 void loop() {
@@ -129,17 +130,17 @@ void loop() {
 void juego1() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-
+  x = 7;
 }
 void juego2() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-
+  x = 2;
 }
 void juego3() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-
+  x = 10;
 }
 void manual() {
   menu.change_screen(3);
@@ -149,42 +150,67 @@ void manual() {
 void fn_2cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
+  x=2;
 }
 void fn_3cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
+  x=3;
 }
 void fn_4cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
+  x=4;
 }
 void fn_5cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
+  x=5;
 }
+
+
 void fn_2jugadores() {
- for(int i = 0; i<2; i++){
-  myStepper.step(stepsPerRevolution/2);
-  delay (500);
-  
- }
+  for (int z = 0; z < x ; z++) {
+    for (int i = 0; i < 2; i++) {
+      myStepper.step(stepsPerRevolution / 2);
+      delay (500);
+      digitalWrite(A1, HIGH);
+      delay(500);
+      digitalWrite(A1, LOW);
+
+    }
+  }
 }
 void fn_3jugadores() {
- for(int i = 0; i<3; i++){
-  myStepper.step(stepsPerRevolution/3);
-  delay (500);
- }
- }
- void fn_4jugadores() {
- for(int i = 0; i<4; i++){
-  myStepper.step(stepsPerRevolution/4);
-  delay (500);
- }
- }
+  for (int z = 0; z < x ; z++) {
+    for (int i = 0; i < 3; i++) {
+      myStepper.step(stepsPerRevolution / 3);
+      delay (500);
+      digitalWrite(A1, HIGH);
+      delay(500);
+      digitalWrite(A1, LOW);
+    }
+  }
+}
+void fn_4jugadores() {
+  for (int z = 0; z < x ; z++) {
+    for (int i = 0; i < 4; i++) {
+      myStepper.step(stepsPerRevolution / 4);
+      delay (500);
+      digitalWrite(A1, HIGH);
+      delay(500);
+      digitalWrite(A1, LOW);
+    }
+  }
+}
 void fn_5jugadores() {
- for(int i = 0; i<5; i++){
-  myStepper.step(stepsPerRevolution/5);
-  delay (500);
-  
- }
+  for (int z = 0; z < x ; z++) {
+    for (int i = 0; i < 5; i++) {
+      myStepper.step(stepsPerRevolution / 5);
+      delay (500);
+      digitalWrite(A1, HIGH);
+      delay(500);
+      digitalWrite(A1, LOW);
+    }
+  }
 }
