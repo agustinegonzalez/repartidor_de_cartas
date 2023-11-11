@@ -2,9 +2,13 @@
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 #define LCD_DIRECCION 0x27
+#include <Stepper.h>
 
+const int stepsPerRevolution = 2048;
 uint8_t lcd_columnas = 16;
 uint8_t lcd_filas = 2;
+Stepper myStepper(stepsPerRevolution,2,3,4,5);
+
 
 LiquidCrystal_I2C lcd(LCD_DIRECCION, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
 
@@ -14,7 +18,7 @@ int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
 
 LiquidLine linea1(1, 0, "UNO");
-LiquidLine linea2(1, 1, "TRUCO");
+LiquidLine linea2(1, 1, "POKER");
 LiquidLine linea3(1, 0, "RUMI");
 LiquidLine linea4(1, 1, "INGRESO MANUAL");
 LiquidScreen pantalla1(linea1, linea2, linea3, linea4);
@@ -81,12 +85,12 @@ void setup() {
   linea3_3.attach_function(1, fn_4cartas);
   linea4_3.attach_function(1, fn_5cartas);
 
-  menu.add_screen(pantalla2);
+  menu.add_screen(pantalla3);
 
 
   pantalla1.set_displayLineCount(2); //selecciona la cantidad que tiene nuestro display para la pantalla 1
   pantalla2.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 2
-    pantalla3.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 2
+  pantalla3.set_displayLineCount(2);//selecciona la cantidad que tiene nuestro display para la pantalla 3
 
 
   menu.set_focusedLine(0); // pone el foco del menu en 0
@@ -94,10 +98,11 @@ void setup() {
   menu.update(); //actualiza la info que se muestra en el display
 
 
-
+ myStepper.setSpeed(10);
 }
 
 void loop() {
+
 
   if ((digitalRead (PulsadorUP) == HIGH) && accionado == false) { //llamado a funcion incrementar
     menu.switch_focus(true); //hace que el cursor baje
@@ -158,14 +163,28 @@ void fn_5cartas() {
   menu.set_focusedLine(0);
 }
 void fn_2jugadores() {
-
+ for(int i = 0; i<2; i++){
+  myStepper.step(stepsPerRevolution/2);
+  delay (500);
+  
+ }
 }
 void fn_3jugadores() {
-
-}
-void fn_4jugadores() {
-
-}
+ for(int i = 0; i<3; i++){
+  myStepper.step(stepsPerRevolution/3);
+  delay (500);
+ }
+ }
+ void fn_4jugadores() {
+ for(int i = 0; i<4; i++){
+  myStepper.step(stepsPerRevolution/4);
+  delay (500);
+ }
+ }
 void fn_5jugadores() {
-
+ for(int i = 0; i<5; i++){
+  myStepper.step(stepsPerRevolution/5);
+  delay (500);
+  
+ }
 }

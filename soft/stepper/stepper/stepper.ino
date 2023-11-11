@@ -1,7 +1,7 @@
 #include <Stepper.h>
 
 int stepsPerRevolution = 2048;
-uint8_t motSpeed = 10;
+uint8_t motSpeed = 11;
 Stepper myStepper(stepsPerRevolution,2,3,4,5);
 
 
@@ -13,5 +13,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  myStepper.step(stepsPerRevolution);  
+  myStepper.step(stepsPerRevolution); 
+  delay(1000); 
 }
