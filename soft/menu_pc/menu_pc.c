@@ -92,8 +92,9 @@ int main(int argc, char *argv[])
 				do{
 				printf("Seleccione el juego que desea cargar:\n");
 				printf("1. UNO\n2. RUMI\n3. CHANCHO\n");
-				}while(juego < 1 || juego > 3);
+
     				scanf("%hhu",  &juego);
+				}while(juego < 1 || juego > 3);
 
 				if(juego == 1){
 					cadena[0] =  'u';
