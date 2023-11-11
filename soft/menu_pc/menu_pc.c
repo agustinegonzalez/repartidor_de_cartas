@@ -5,7 +5,7 @@
 #include "termset.h"
 #include <stdint.h>
 #include <string.h>
-#include <libudev.h>
+#include "libudev.h"
 
 const char *encontrarPuertoSerieArduino() {
 	
