@@ -92,8 +92,8 @@ int main(int argc, char *argv[])
 				do{
 				printf("Seleccione el juego que desea cargar:\n");
 				printf("1. UNO\n2. RUMI\n3. CHANCHO\n");
+				scanf("%hhu",  &juego);
 				}while(juego < 1 || juego > 3);
-    				scanf("%hhu",  &juego);
 
 				if(juego == 1){
 					cadena[0] =  'u';
@@ -130,6 +130,8 @@ int main(int argc, char *argv[])
 				printf("*********************************************************\n");
 				continue;
 			case 3:
+				cadena[0]='$';
+				write(file_descriptor, cadena, 1);
 				read(file_descriptor,cadena_rec,3);
 				printf("Los juegos cargados son:\n");
 				if(cadena_rec[0] == 'u' || cadena_rec[1] == 'u' || cadena_rec[2] == 'u'){

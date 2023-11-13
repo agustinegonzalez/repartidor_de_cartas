@@ -3,6 +3,8 @@
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 #define LCD_DIRECCION 0x27
 
+char lee;
+char recibe='$';
 uint8_t lcd_columnas = 16;
 uint8_t lcd_filas = 2;
 
@@ -98,7 +100,6 @@ void setup() {
 }
 
 void loop() {
-
   if ((digitalRead (PulsadorUP) == HIGH) && accionado == false) { //llamado a funcion incrementar
     menu.switch_focus(true); //hace que el cursor baje
     menu.update(); //actualiza la info que se muestra en el display
@@ -119,7 +120,22 @@ void loop() {
   if (digitalRead(PulsadorUP)  == LOW && digitalRead (PulsadorDOWN) == LOW && digitalRead (PulsadorOK) == LOW) {  //si un pulsador esta accionado los demas no pueden estar accionados
     accionado = false;
   }
+  //Puerto serie
+  if(Serial.available() != 0){
+    char lee = Serial.read();
+    switch(lee){
+      case 'u':
+      case 'U':
+      case 'r':
+      case 'R':
+      case 'c':
+      case 'C':
+      case '$':
+        Serial.write()//Aca van los juegos cargados
+      }
+    }
 
+    
 }
 void juego1() {
   menu.change_screen(2);
