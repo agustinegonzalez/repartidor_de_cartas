@@ -1,11 +1,14 @@
 void setup() {
-    Serial.begin(9600); // Inicia el puerto serie a 9600 bps
+  // Inicializar el puerto serie a una velocidad específica (en baudios)
+  Serial.begin(9600);
 }
 
 void loop() {
-    if (Serial.available()) {
-        String juegoserie = Serial.readStringUntil('\n');
-        Serial.print("Cadena recibida: ");
-        Serial.println(juegoserie);
+  if (Serial.available() > 0) {
+    char receivedChar = Serial.read();
+    if (receivedChar == 'a') {
+      int numero = 123; // Puedes cambiar este número según tus necesidades
+      Serial.print(numero);
     }
+  }
 }
