@@ -1,8 +1,12 @@
 #include <LiquidMenu.h>
+
+
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
 #define LCD_DIRECCION 0x27
-
+const char UNO[10];
+const char POKER[10];
+const char RUMI[10];
 char lee;
 char recibe='$';
 uint8_t lcd_columnas = 16;
@@ -15,9 +19,9 @@ int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
 
-LiquidLine linea1(1, 0, "UNO");
-LiquidLine linea2(1, 1, "TRUCO");
-LiquidLine linea3(1, 0, "RUMI");
+LiquidLine linea1(1, 0, UNO);
+LiquidLine linea2(1, 1, POKER);
+LiquidLine linea3(1, 0, RUMI);
 LiquidLine linea4(1, 1, "INGRESO MANUAL");
 LiquidScreen pantalla1(linea1, linea2, linea3, linea4);
 
@@ -123,15 +127,46 @@ void loop() {
   //Puerto serie
   if(Serial.available() != 0){
     char lee = Serial.read();
+    int i=0;
     switch(lee){
-      case 'u':
-      case 'U':
+      case 'u':        
+              i++;
+              if(i>0)
+                const char UNO[10]="UNO";        
+              i--;
+                break;
+      case 'U':          
+              i++;
+              if(i>0)
+                const char UNO[10]={0};        
+              i--;
+              break;
       case 'r':
+              i++;
+              if(i>0)
+                const char RUMI[10]="RUMI";       
+              i--;
+              break;
       case 'R':
-      case 'c':
-      case 'C':
-      case '$':
-        Serial.write()//Aca van los juegos cargados
+              i++;
+              if(i>0)
+                const char RUMI[10]={0};       
+              i--;
+              break;
+      case 'p':
+              i++;
+              if(i>0)
+                const char POKER[10]="POKER";       
+              i--;
+              break;
+      case 'P':
+              i++;
+              if(i>0)
+                const char POKER[10]={0};       
+              i--;
+              break;
+      //case'$':
+       // Serial.write()//Aca van los juegos cargados
       }
     }
 
