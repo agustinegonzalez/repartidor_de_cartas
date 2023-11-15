@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 				continue;
 
 		}	
-			tcdrain(file_descriptor);i /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
+			tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
 		sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
 	}
 	close(file_descriptor);
