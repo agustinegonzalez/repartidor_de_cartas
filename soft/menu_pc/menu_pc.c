@@ -48,7 +48,6 @@ const char *encontrarPuertoSerieArduino() {
 
 	return nombrePuertoSerie;
 }
-i
 
 int main(int argc, char *argv[])
 {
