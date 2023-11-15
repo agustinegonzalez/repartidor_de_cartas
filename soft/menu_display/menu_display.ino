@@ -27,13 +27,14 @@ LiquidScreen pantalla1(linea1, linea2, linea3, linea4);
 LiquidLine linea1_2(1, 0, "2 Jugadores");
 LiquidLine linea2_2(1, 1, "3 Jugadores");
 LiquidLine linea3_2(1, 0, "4 Jugadores");
-LiquidLine linea4_2(1, 1, "5 Jugadores");
+LiquidLine linea4_2(1, 1, "Volver");
 LiquidScreen pantalla2(linea1_2, linea2_2, linea3_2, linea4_2);
 
 LiquidLine linea1_3(1, 0, "3 cartas");
 LiquidLine linea2_3(1, 1, "4 cartas");
 LiquidLine linea3_3(1, 0, "7 cartas");
-LiquidLine linea4_3(1, 1, "10 cartas");
+LiquidLine linea4_3(1, 1, "Volver");
+
 LiquidScreen pantalla3(linea1_3, linea2_3, linea3_3, linea4_3);
 
 
@@ -71,7 +72,8 @@ void setup() {
   linea1_2.attach_function(1, fn_2jugadores);
   linea2_2.attach_function(1, fn_3jugadores);
   linea3_2.attach_function(1, fn_4jugadores);
-  linea4_2.attach_function(1, fn_5jugadores);
+  linea4_2.attach_function(1, volver);
+
 
   menu.add_screen(pantalla2);
 
@@ -84,7 +86,10 @@ void setup() {
   linea1_3.attach_function(1, fn_2cartas);
   linea2_3.attach_function(1, fn_3cartas);
   linea3_3.attach_function(1, fn_4cartas);
-  linea4_3.attach_function(1, fn_5cartas);
+  linea4_3.attach_function(1, volvermanual);
+
+
+
 
   menu.add_screen(pantalla3);
 
@@ -150,22 +155,22 @@ void manual() {
 void fn_2cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x=2;
+  x = 2;
 }
 void fn_3cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x=3;
+  x = 3;
 }
 void fn_4cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x=4;
+  x = 4;
 }
 void fn_5cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x=5;
+  x = 5;
 }
 
 
@@ -203,14 +208,11 @@ void fn_4jugadores() {
     }
   }
 }
-void fn_5jugadores() {
-  for (int z = 0; z < x ; z++) {
-    for (int i = 0; i < 5; i++) {
-      myStepper.step(stepsPerRevolution / 5);
-      delay (500);
-      digitalWrite(A1, HIGH);
-      delay(500);
-      digitalWrite(A1, LOW);
-    }
-  }
+
+
+void volvermanual() {
+   menu.change_screen(1);
+}
+void volver() {
+   menu.previous_screen();
 }
