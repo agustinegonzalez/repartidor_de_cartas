@@ -1,24 +1,30 @@
 #include <LiquidMenu.h>
 #include <Wire.h> //incluyo libreria para la comunicacion I2C
 #include <LiquidCrystal_I2C.h> //incluyo libreria para display I2C
-#define LCD_DIRECCION 0x27
 #include <Stepper.h>
-uint8_t x = 0;
+
+#define LCD_DIRECCION 0x27
+#define LCD_DIRECCION2 0x20
+
 const int stepsPerRevolution = 2048;
-uint8_t lcd_columnas = 16;
-uint8_t lcd_filas = 2;
-
-
-
 Stepper myStepper(stepsPerRevolution, 2, 3, 4, 5);
 
-
+uint8_t lcd_columnas = 16;
+uint8_t lcd_filas = 2;
 LiquidCrystal_I2C lcd(LCD_DIRECCION, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C
+LiquidCrystal_I2C lcd2(LCD_DIRECCION2, lcd_columnas, lcd_filas); // Crea una instancia de LiquidCrystal_I2C para el display 2
+
+uint8_t vueltas = 0;
 
 boolean accionado = false;
 int  PulsadorUP = 7;    // pin del Pulsador incrementador
 int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
+
+const int botonIncrementarJugador1Pin = 12; //Pin donde se encuentra el pulsador de incremento J1
+const int botonIncrementarJugador2Pin = 11;//Pin donde se encuentra el pulsador de incremento J2
+byte puntuacionJugador1 = 0; //variable puntuacion jugador1
+byte puntuacionJugador2 = 0; //variable puntuacion jugador2
 
 
 LiquidLine linea1(1, 0, "UNO");
@@ -48,15 +54,21 @@ void setup() {
   pinMode(PulsadorUP, INPUT); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(PulsadorDOWN, INPUT ); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(PulsadorOK, INPUT); //pin Pulsador configurado como entrada con resistencia de pullup interna
+  pinMode(botonIncrementarJugador1Pin, INPUT); //declara el pin con un resistencia de entrada pullup
+  pinMode(botonIncrementarJugador2Pin, INPUT_PULLUP); //declara el pin con un resistencia de entrada pullup
   pinMode(A1, OUTPUT);
 
   // Iniciar la comunicación serial a 9600 baudios
   Serial.begin(9600);
 
   // Inicializar el LCD
-  lcd.init();
+  lcd.init(); //Inicia Display
+  lcd2.init(); //Inicia Display2
+
   //Encender la luz de fondo.
-  lcd.backlight();
+  lcd.backlight(); //Enciende luz display
+  lcd2.backlight(); //Enciende luz display
+
   //selecciona donde se ubica el cursor
   linea1.set_focusPosition(Position::LEFT);
   linea2.set_focusPosition(Position::LEFT);
@@ -69,6 +81,7 @@ void setup() {
   linea4.attach_function(1, manual);
 
   menu.add_screen(pantalla1);
+
   //selecciona donde se ubica el cursor
   linea1_2.set_focusPosition(Position::LEFT);
   linea2_2.set_focusPosition(Position::LEFT);
@@ -79,7 +92,6 @@ void setup() {
   linea2_2.attach_function(1, fn_3jugadores);
   linea3_2.attach_function(1, fn_4jugadores);
   linea4_2.attach_function(1, volver);
-
 
   menu.add_screen(pantalla2);
 
@@ -94,9 +106,6 @@ void setup() {
   linea3_3.attach_function(1, fn_4cartas);
   linea4_3.attach_function(1, volvermanual);
 
-
-
-
   menu.add_screen(pantalla3);
 
 
@@ -106,7 +115,6 @@ void setup() {
 
 
   menu.set_focusedLine(0); // pone el foco del menu en 0
-
   menu.update(); //actualiza la info que se muestra en el display
 
 
@@ -115,7 +123,7 @@ void setup() {
 
 void loop() {
 
-
+  //Botones Menu
   if ((digitalRead (PulsadorUP) == HIGH) && accionado == false) { //llamado a funcion incrementar
     menu.switch_focus(true); //hace que el cursor baje
     menu.update(); //actualiza la info que se muestra en el display
@@ -137,23 +145,36 @@ void loop() {
     accionado = false;
   }
 
-  
+  mostrarPuntuacion(); //llama a la funcion que muestra la puntuacion
+
+  //Botones Puntuacion
+  if (digitalRead(botonIncrementarJugador1Pin) == HIGH) { //Si el boton se presiona, accede al if
+    delay(200); // Debounce para evitar lecturas erróneas debido a rebotes
+    puntuacionJugador1++; //Incrementa en 1 la puntuacion del jugador 1
+  }
+
+  if (digitalRead(botonIncrementarJugador2Pin) == HIGH ) { //Si el boton se presiona, accede al if
+    delay(200);
+    puntuacionJugador2++; // Incrementa en 1 la puntuacion del jugador 2
+  }
+
+
 
 }
 void juego1() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 7;
+  vueltas = 7;
 }
 void juego2() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 2;
+  vueltas = 2;
 }
 void juego3() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 10;
+  vueltas = 10;
 }
 void manual() {
   menu.change_screen(3);
@@ -163,27 +184,27 @@ void manual() {
 void fn_2cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 2;
+  vueltas = 2;
 }
 void fn_3cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 3;
+  vueltas = 3;
 }
 void fn_4cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 4;
+  vueltas = 4;
 }
 void fn_5cartas() {
   menu.change_screen(2);
   menu.set_focusedLine(0);
-  x = 5;
+  vueltas = 5;
 }
 
 
 void fn_2jugadores() {
-  for (int z = 0; z < x ; z++) {
+  for (int z = 0; z < vueltas ; z++) {
     for (int i = 0; i < 2; i++) {
       myStepper.step(stepsPerRevolution / 2);
       delay (500);
@@ -195,7 +216,7 @@ void fn_2jugadores() {
   }
 }
 void fn_3jugadores() {
-  for (int z = 0; z < x ; z++) {
+  for (int z = 0; z < vueltas ; z++) {
     for (int i = 0; i < 3; i++) {
       myStepper.step(stepsPerRevolution / 3);
       delay (500);
@@ -206,7 +227,7 @@ void fn_3jugadores() {
   }
 }
 void fn_4jugadores() {
-  for (int z = 0; z < x ; z++) {
+  for (int z = 0; z < vueltas ; z++) {
     for (int i = 0; i < 4; i++) {
       myStepper.step(stepsPerRevolution / 4);
       delay (500);
@@ -219,8 +240,22 @@ void fn_4jugadores() {
 
 
 void volvermanual() {
-   menu.change_screen(1);
+  menu.change_screen(1);
 }
 void volver() {
-   menu.previous_screen();
+  menu.previous_screen();
+}
+
+void mostrarPuntuacion() {
+  lcd2.clear(); //Limpia la pantalla del lcd
+
+  // Mostrar la puntuación del jugador 1 en la primera línea del LCD
+  lcd2.setCursor(0, 0);
+  lcd2.print("Jugador 1: ");
+  lcd2.print(puntuacionJugador1);
+
+  // Mostrar la puntuación del jugador 2 en la segunda línea del LCD
+  lcd2.setCursor(0, 1);
+  lcd2.print("Jugador 2: ");
+  lcd2.print(puntuacionJugador2);
 }
