@@ -7,6 +7,19 @@ uint8_t x = 0;
 const int stepsPerRevolution = 2048;
 uint8_t lcd_columnas = 16;
 uint8_t lcd_filas = 2;
+//char juegoA[10]= "UNO";
+//char juegoB[10]= "POKER";
+ //char juegoC[10]= "RUMI";
+//char *juegoa = juegoA;
+//char *juegob= juegoB;
+//char *juegoc= juegoC;
+char UNO [10] = "";
+char POKER[10] = "";
+char RUMI[10] = "";
+char lee;
+char recibe='$';
+
+
 Stepper myStepper(stepsPerRevolution, 2, 3, 4, 5);
 
 
@@ -18,9 +31,9 @@ int  PulsadorDOWN = 8;    // pin del Pulsador decrementador
 int PulsadorOK = 9;    // pin del Pulsador reset
 
 
-LiquidLine linea1(1, 0, "UNO");
-LiquidLine linea2(1, 1, "POKER");
-LiquidLine linea3(1, 0, "RUMI");
+LiquidLine linea1(1, 0, UNO);
+LiquidLine linea2(1, 1, POKER);
+LiquidLine linea3(1, 0, RUMI);
 LiquidLine linea4(1, 1, "INGRESO MANUAL");
 LiquidScreen pantalla1(linea1, linea2, linea3, linea4);
 
@@ -46,6 +59,9 @@ void setup() {
   pinMode(PulsadorDOWN, INPUT ); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(PulsadorOK, INPUT); //pin Pulsador configurado como entrada con resistencia de pullup interna
   pinMode(A1, OUTPUT);
+
+  // Iniciar la comunicación serial a 9600 baudios
+  Serial.begin(9600);
 
   // Inicializar el LCD
   lcd.init();
@@ -109,6 +125,43 @@ void setup() {
 
 void loop() {
 
+    //Puerto serie
+  if(Serial.available() != 0){
+    char lee = Serial.read();
+    
+    switch(lee){
+      case 'u':        
+            // Modificar directamente el array UNO
+                strcpy(UNO, "UNO");
+                // Actualizar la línea del menú
+                linea1 = LiquidLine(1, 0, UNO);
+                break;
+      case 'U':          
+                     Serial.println(lee);
+
+              break;
+      case 'r':
+                     Serial.println(lee);
+
+              break;
+      case 'R':
+                    Serial.println(lee);
+
+              break;
+      case 'c':
+                      Serial.println(lee);
+
+              break;
+      case 'C':
+                     Serial.println(lee);
+
+              break;
+      //case'$':
+       // Serial.write()//Aca van los juegos cargados
+      }
+    }
+    
+
 
   if ((digitalRead (PulsadorUP) == HIGH) && accionado == false) { //llamado a funcion incrementar
     menu.switch_focus(true); //hace que el cursor baje
@@ -130,6 +183,8 @@ void loop() {
   if (digitalRead(PulsadorUP)  == LOW && digitalRead (PulsadorDOWN) == LOW && digitalRead (PulsadorOK) == LOW) {  //si un pulsador esta accionado los demas no pueden estar accionados
     accionado = false;
   }
+
+  
 
 }
 void juego1() {
