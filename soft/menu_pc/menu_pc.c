@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 				printf("*********************************************************\n");
 				printf("Juego cargado con éxito. Volviendo al menú......\n");
 				printf("*********************************************************\n");
-				write(file_descriptor, cadena, strlen(cadena));
+				write(file_descriptor, cadena, sizeof(cadena));
 				continue;
 			case 2:
 				printf("¿Desea cargar el RUMI?\n1. Sí\n2. No\n");
