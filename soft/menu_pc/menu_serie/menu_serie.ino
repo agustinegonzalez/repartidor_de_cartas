@@ -1,11 +1,10 @@
 void setup() {
-    Serial.begin(9600); // Inicia el puerto serie a 9600 bps
+  Serial.begin(9600);
 }
 
 void loop() {
-    if (Serial.available()) {
-        String juegoserie = Serial.readStringUntil('\n');
-        Serial.print("Cadena recibida: ");
-        Serial.println(juegoserie);
-    }
+  if (Serial.available() > 0) {
+    String receivedString = Serial.readString();
+    Serial.println(receivedString);
+  }
 }
