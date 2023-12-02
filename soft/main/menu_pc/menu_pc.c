@@ -10,44 +10,7 @@
 #define FALSE 0
 #define TRUE 1
 
-const char *encontrarPuertoSerieArduino() {
-	
-	struct udev *udev = udev_new();
-	
-	if (!udev) {
-		fprintf(stderr, "Error al inicializar udev\n");
-	return NULL;
-	}
-
-	struct udev_enumerate *enumerate = udev_enumerate_new(udev); 
-	udev_enumerate_add_match_subsystem(enumerate, "tty"); 
-	udev_enumerate_scan_devices(enumerate);
-
-	struct udev_list_entry *devices = udev_enumerate_get_list_entry(enumerate);
-	struct udev_list_entry *entry;
-
-	const char *nombrePuertoSerie = NULL;
-
-	udev_list_entry_foreach(entry, devices) { 
-		const char *path = udev_list_entry_get_name(entry); 
-		struct udev_device *device = udev_device_new_from_syspath(udev, path); 
-		const char *devnode = udev_device_get_devnode(device); 
-		if (devnode) {
-			if (strstr(devnode, "ttyACM") || strstr(devnode, "ttyUSB")) {
-				nombrePuertoSerie = devnode;
-				break; 
-			}
-		}
-
-		udev_device_unref(device);
-	}
-
-	udev_enumerate_unref(enumerate);
-	udev_unref(udev);
-
-	return nombrePuertoSerie;
-}
-
+const char* encontrarPuertoSerieArduino();
 
 int main(int argc, char *argv[])
 {
@@ -98,3 +61,44 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+const char *encontrarPuertoSerieArduino() {
+	
+	struct udev *udev = udev_new();
+	
+	if (!udev) {
+		fprintf(stderr, "Error al inicializar udev\n");
+	return NULL;
+	}
+
+	struct udev_enumerate *enumerate = udev_enumerate_new(udev); 
+	udev_enumerate_add_match_subsystem(enumerate, "tty"); 
+	udev_enumerate_scan_devices(enumerate);
+
+	struct udev_list_entry *devices = udev_enumerate_get_list_entry(enumerate);
+	struct udev_list_entry *entry;
+
+	const char *nombrePuertoSerie = NULL;
+
+	udev_list_entry_foreach(entry, devices) { 
+		const char *path = udev_list_entry_get_name(entry); 
+		struct udev_device *device = udev_device_new_from_syspath(udev, path); 
+		const char *devnode = udev_device_get_devnode(device); 
+		if (devnode) {
+			if (strstr(devnode, "ttyACM") || strstr(devnode, "ttyUSB")) {
+				nombrePuertoSerie = devnode;
+				break; 
+			}
+		}
+
+		udev_device_unref(device);
+	}
+
+	udev_enumerate_unref(enumerate);
+	udev_unref(udev);
+
+	return nombrePuertoSerie;
+}
+
+
