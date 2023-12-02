@@ -6,14 +6,10 @@
 #include <stdint.h>
 #include <string.h>
 #include "libudev.h"
-/*Se incluyen las bibliotecas estándar de entrada/salida, gestión de archivos, memoria dinámica, manipulación de cadenas, 
- * y las bibliotecas necesarias para interactuar con un dispositivo serie y para la gestión de dispositivos a través de udev*/
-
 
 #define FALSE 0
 #define TRUE 1
 
-volatile int STOP=FALSE;
 const char *encontrarPuertoSerieArduino() {
 	
 	struct udev *udev = udev_new();
@@ -23,8 +19,8 @@ const char *encontrarPuertoSerieArduino() {
 	return NULL;
 	}
 
-	struct udev_enumerate *enumerate = udev_enumerate_new(udev); /*puntero a una estructura udev_enumerate que se utiliza para realizar la enumeración de dispositivos.*/
-	udev_enumerate_add_match_subsystem(enumerate, "tty"); /*agregar una regla de coincidencia al enumerador udev. Está indicando que se deben enumerar solo los dispositivos que pertenecen al subsistema especificado.*/
+	struct udev_enumerate *enumerate = udev_enumerate_new(udev); 
+	udev_enumerate_add_match_subsystem(enumerate, "tty"); 
 	udev_enumerate_scan_devices(enumerate);
 
 	struct udev_list_entry *devices = udev_enumerate_get_list_entry(enumerate);
@@ -32,16 +28,14 @@ const char *encontrarPuertoSerieArduino() {
 
 	const char *nombrePuertoSerie = NULL;
 
-	udev_list_entry_foreach(entry, devices) { /* Recorre cada elemento (entry) en la lista de dispositivos (devices). Dentro de este bucle, se accede a información específica sobre el dispositivo utilizando funciones de la biblioteca libudev. En este caso, se está buscando un dispositivo que cumpla con ciertas condiciones, como pertenecer al subsistema "tty" y tener un nombre de dispositivo que contenga "ttyACM" o "ttyUSB".*/
-		const char *path = udev_list_entry_get_name(entry); /*Se obtiene el nombre del syspath para el dispositivo actual en la iteración del bucle.*/ 
-		struct udev_device *device = udev_device_new_from_syspath(udev, path); /*Se utiliza el syspath obtenido para crear una nueva instancia de la estructura udev_device*/
-		const char *devnode = udev_device_get_devnode(device); /* Se obtiene el nodo de dispositivo (devnode) asociado al dispositivo. El devnode es la interfaz de usuario en el sistema de archivos a través de la cual el dispositivo se puede acceder */
-
+	udev_list_entry_foreach(entry, devices) { 
+		const char *path = udev_list_entry_get_name(entry); 
+		struct udev_device *device = udev_device_new_from_syspath(udev, path); 
+		const char *devnode = udev_device_get_devnode(device); 
 		if (devnode) {
-		// Comprueba si el nombre del dispositivo contiene "ttyACM" o "ttyUSB"
 			if (strstr(devnode, "ttyACM") || strstr(devnode, "ttyUSB")) {
 				nombrePuertoSerie = devnode;
-				break; // Se encontró el puerto, salimos del bucle
+				break; 
 			}
 		}
 
@@ -54,13 +48,6 @@ const char *encontrarPuertoSerieArduino() {
 	return nombrePuertoSerie;
 }
 
-typedef union{
-
-	unsigned char uc[4];
-	int i;
-
-
-} int_uchar_t;
 
 int main(int argc, char *argv[])
 {
@@ -68,7 +55,6 @@ int main(int argc, char *argv[])
 	uint8_t opcion = 0;
 	struct termios oldtty, newtty;
 	const char *puerto = encontrarPuertoSerieArduino();
-	int_uchar_t i_uc;	
 	
 	
 	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
@@ -95,14 +81,11 @@ int main(int argc, char *argv[])
 		scanf("%hhu", &opcion);
 		
 		if (opcion == 2)
-			break;  // Salir del bucle cuando se ingresa "4"
-		
+			break; 		
 		switch(opcion)
 		{
 			case 1:
 				write(file_descriptor, "a", 1);
- 			size_t n = read(file_descriptor, &(i_uc.uc[0]), 4);
-			       printf("%d\n\n", i_uc.i);
 				continue;
 			default:
 				continue;
