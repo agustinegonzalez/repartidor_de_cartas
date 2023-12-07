@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	struct termios oldtty, newtty;
 	const char *puerto = encontrarPuertoSerieArduino();
 	char *cadena;
-	
+
 	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
 	
 	if(file_descriptor == -1)
@@ -44,15 +44,15 @@ int main(int argc, char *argv[])
 
 	cadena = "Cargado"; 	
 	write(file_descriptor, cadena, strlen(cadena));
-
-
-
-	
 	
 	tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
 	sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
-	close(file_descriptor);
+	char buff[1024];
+	read(file_descriptor, buff, 1024);
 
+	printf("La cadena obtenida es: %s\n", buff);
+	close(file_descriptor);
+	
 	return 0;
 }
 
