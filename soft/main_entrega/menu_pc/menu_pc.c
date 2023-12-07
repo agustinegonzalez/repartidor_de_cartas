@@ -7,8 +7,6 @@
 #include <string.h>
 #include "libudev.h"
 
-#define FALSE 0
-#define TRUE 1
 
 const char* encontrarPuertoSerieArduino();
 
@@ -47,6 +45,10 @@ int main(int argc, char *argv[])
 	cadena = "Cargado"; 	
 	write(file_descriptor, cadena, strlen(cadena));
 
+
+
+	
+	
 	tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
 	sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
 	close(file_descriptor);
