@@ -5,8 +5,8 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
-    char receivedChar = Serial.read();
-    if (receivedChar == 'a') {
+    String cadena = readStringUntil('\n');
+    if (cadena == 'Cargado') {
       int numero = 123; // Puedes cambiar este número según tus necesidades
       Serial.print(numero);
     }
