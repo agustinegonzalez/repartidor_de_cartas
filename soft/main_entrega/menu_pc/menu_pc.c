@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <string.h>
 #include "libudev.h"
+#include <errno.h>
+
 
 
 const char* encontrarPuertoSerieArduino();
@@ -18,7 +20,7 @@ int main(int argc, char *argv[])
 	const char *puerto = encontrarPuertoSerieArduino();
 	char *cadena;
 
-	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
+	file_descriptor = open(puerto, O_RDWR | O_NOCTTY);
 	
 	if(file_descriptor == -1)
 	{
@@ -41,16 +43,50 @@ int main(int argc, char *argv[])
 
 	scanf("%hhu", &opcion);
 	}while(opcion < 1 || opcion > 2);
-
+	if(opcion == 2)
+		return 1;
 	cadena = "Cargado"; 	
 	write(file_descriptor, cadena, strlen(cadena));
 	
 	tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
 	sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
-	char buff[1024];
-	read(file_descriptor, buff, 1024);
+	
+	char buff[33];
+	int n;
+	n = read(file_descriptor, buff, strlen(cadena));
 
-	printf("La cadena obtenida es: %s\n", buff);
+	if (n == -1){
+   
+		switch(errno){
+			case EBADF:{
+			    printf("Bad file number. Error: %i\n", errno);
+			    break;}
+			case EINVAL:{
+			    printf("Invalid argument. Error: %i\n", errno);
+		    	break;}
+			case EIO:{
+		    		printf("I/O error . Error: %i\n", errno);
+		   	 break;}
+			case EPERM:
+				 printf("Operación no permitida");
+				break;
+			case EINTR:
+				printf("System call interrumpted\n");	
+				break;
+			case EFBIG:
+				printf("File too big");
+				break;
+			case EFAULT:
+				printf("incorrect adress");
+				break;
+			case EDESTADDRREQ:
+				printf("Direccion de destinacion requerida" );
+			case EAGAIN:
+				printf("try again " );
+				break;
+		}	
+	}else 
+		printf("La cadena obtenida es: %s\n", buff);
 	close(file_descriptor);
 	
 	return 0;
