@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	uint8_t opcion = 0;
 	struct termios oldtty, newtty;
 	const char *puerto = encontrarPuertoSerieArduino();
-	
+	char *cadena;
 	
 	file_descriptor = open(puerto, O_RDWR | O_NOCTTY | O_NDELAY);
 	
@@ -36,27 +36,19 @@ int main(int argc, char *argv[])
 	
 	tcflush(file_descriptor, TCIOFLUSH); /*Vacío el buffer de entrada y salida del terminal serie*/
 	
-	for (;;) {
-		printf("\tR E P A R T I D O R    D E    C A R T A S\n");
-		printf("1. Obtener puntuación\n");
-		printf("2. Salir\n");
-		
-		scanf("%hhu", &opcion);
-		
-		if (opcion == 2)
-			break; 		
-		switch(opcion)
-		{
-			case 1:
-				write(file_descriptor, "a", 1);
-				continue;
-			default:
-				continue;
+	do{
+	printf("\tR E P A R T I D O R    D E    C A R T A S\n");
+	printf("1. Obtener puntuación\n");
+	printf("2. Salir\n");
 
-		}	
-			tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
-		sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
-	}
+	scanf("%hhu", &opcion);
+	}while(opcion < 1 || opcion > 2);
+
+	cadena = "Cargado"; 	
+	write(file_descriptor, cadena, strlen(cadena));
+
+	tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
+	sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
 	close(file_descriptor);
 
 	return 0;
