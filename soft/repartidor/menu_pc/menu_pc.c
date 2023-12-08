@@ -21,11 +21,8 @@ int main(int argc, char *argv[])
 	char *cadena;
 
 	file_descriptor = open(puerto, O_RDWR | O_NOCTTY);
-<<<<<<< HEAD
 	sleep(1);	
-=======
 	
->>>>>>> main
 	if(file_descriptor == -1)
 	{
 		printf("ERROR: no se pudo abrir el dispositivo.\n");
@@ -47,26 +44,19 @@ int main(int argc, char *argv[])
 
 	scanf("%hhu", &opcion);
 	}while(opcion < 1 || opcion > 2);
-<<<<<<< HEAD
 
 	if(opcion == 2)
 		return 1;
 
-=======
 	if(opcion == 2)
 		return 1;
->>>>>>> main
 	cadena = "Cargado"; 	
 	write(file_descriptor, cadena, strlen(cadena));
 	
 	tcdrain(file_descriptor); /* espera a que todos los datos pendientes de escritura en el descriptor de archivo del terminal (file_descriptor) se hayan transmitido físicamente al dispositivo antes de continuar*/
 	sleep(1); /*Pausa la ejecucion del programa durante 1seg*/
 	
-<<<<<<< HEAD
 	char buff[9];
-=======
-	char buff[33];
->>>>>>> main
 	int n;
 	n = read(file_descriptor, buff, strlen(cadena));
 
@@ -102,10 +92,7 @@ int main(int argc, char *argv[])
 		}	
 	}else 
 		printf("La cadena obtenida es: %s\n", buff);
-<<<<<<< HEAD
 		
-=======
->>>>>>> main
 	close(file_descriptor);
 	
 	return 0;
