@@ -10,7 +10,7 @@ En caso de seleccionar un juego precargado, la siguiente pantalla será la canti
 2. Navega al directorio del proyecto: `cd repartidor_de_cartas`
 
 ## Uso
-1- Conecte la plaqueta arduino
-2- Para iniciar la aplicación, ejecuta el siguiente comando:
+1. Conecte la plaqueta arduino
+2. Para iniciar la aplicación, ejecuta el siguiente comando:
 <./repartidor_app>
 
