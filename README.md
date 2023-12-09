@@ -8,9 +8,9 @@ En caso de seleccionar un juego precargado, la siguiente pantalla será la canti
 ## Instrucciones de Instalación
 1. Clona este repositorio: `git clone https://github.com/agustinegonzalez/repartidor_de_cartas.git`
 2. Navega al directorio del proyecto: `cd repartidor_de_cartas`
-3. Instala las dependencias: `npm install`
 
 ## Uso
-Para iniciar la aplicación, ejecuta el siguiente comando:
-
+1- Conecte la plaqueta arduino
+2- Para iniciar la aplicación, ejecuta el siguiente comando:
+<./repartidor_app>
 
