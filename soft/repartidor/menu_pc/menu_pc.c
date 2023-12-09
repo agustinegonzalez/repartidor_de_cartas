@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	
 	char buff[9];
 	int n;
-	n = read(file_descriptor, buff, strlen(cadena));
+	n = read(file_descriptor, buff, strlen("Recibido"));
 
 	if (n == -1){
    
